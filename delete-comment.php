@@ -13,7 +13,7 @@ $id = $_GET['id'];
  * 3. Vérification que l'article existe bel et bien
  */
 $commentaire = findComment($id);
-if ($commentaire) {
+if (!$commentaire) {
     die("L'article $id n'existe pas, vous ne pouvez donc pas le supprimer !");
 }
 
@@ -26,5 +26,5 @@ deleteComment($id);
 /**
  * 5. Redirection vers la page d'accueil
  */
-header("Location: index.php");
+header("Location: article.php?id=" . $article_id);
 exit();

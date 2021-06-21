@@ -3,7 +3,7 @@
 $article_id = null;
 
 if (!empty($_GET['id']) && ctype_digit($_GET['id'])) {
-    $article_id = $_GET['id'];
+    $article_id = $_GET['id']; 
 }
 
 if (!$article_id) {
@@ -11,14 +11,11 @@ if (!$article_id) {
 }
 
 require_once('connect.php');
+require_once('library/utils.php');
 
 $article = findArticle($article_id);
 $commentaires =findAllArticles();
 
 
 $pageTitle = $article['title'];
-ob_start();
-require('templates/articles/show.html.php');
-$pageContent = ob_get_clean();
-
-require('templates/layout.html.php');
+render('articles/show', compact('pageTitle', 'article', 'commentaires', 'article_id');

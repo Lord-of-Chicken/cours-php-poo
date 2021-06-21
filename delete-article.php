@@ -1,6 +1,6 @@
 
 <?php
-
+require_once('connect.php');
 /**
  * DANS CE FICHIER ON CHERCHE A SUPPRIMER LE COMMENTAIRE DONT L'ID EST PASSE EN PARAMETRE GET !
  * 
@@ -26,7 +26,7 @@ $id = $_GET['id'];
  * 
  * PS : Vous remarquez que ce sont les mêmes lignes que pour l'index.php ?!
  */
-require_once('connect.php');
+
 
 
 

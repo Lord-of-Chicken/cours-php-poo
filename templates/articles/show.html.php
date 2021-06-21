@@ -9,7 +9,7 @@
 <?php else : ?>
     <h2>Il y a déjà <?= count($commentaires) ?> réactions : </h2>
     <?php foreach ($commentaires as $commentaire) : ?>
-        <h3>Commentaire de <?= $commentaire['author'] ?></h3>
+        <h3>Commentaire dess <?= $commentaire['author'] ?></h3>
         <small>Le <?= $commentaire['created_at'] ?></small>
         <blockquote>
             <em><?= $commentaire['content'] ?></em>

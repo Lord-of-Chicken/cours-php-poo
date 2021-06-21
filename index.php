@@ -1,13 +1,9 @@
 <?php
 require_once('connect.php');
-
+require_once('library/utils.php');
 
 $articles = findAllArticles();
 
 
 $pageTitle = "Accueil";
-ob_start();
-require('templates/articles/index.html.php');
-$pageContent = ob_get_clean();
-
-require('templates/layout.html.php');
+render('articles/index.php', compact('pageTitle', 'articles'));
