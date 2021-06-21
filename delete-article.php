@@ -1,20 +1,22 @@
+
 <?php
 
 /**
- * DANS CE FICHIER, ON CHERCHE A SUPPRIMER L'ARTICLE DONT L'ID EST PASSE EN GET
+ * DANS CE FICHIER ON CHERCHE A SUPPRIMER LE COMMENTAIRE DONT L'ID EST PASSE EN PARAMETRE GET !
  * 
- * Il va donc falloir bien s'assurer qu'un paramètre "id" est bien passé en GET, puis que cet article existe bel et bien
- * Ensuite, on va pouvoir effectivement supprimer l'article et rediriger vers la page d'accueil
+ * On va donc vérifier que le paramètre "id" est bien présent en GET, qu'il correspond bien à un commentaire existant
+ * Puis on le supprimera !
  */
 
 /**
- * 1. On vérifie que le GET possède bien un paramètre "id" (delete.php?id=202) et que c'est bien un nombre
+ * 1. Récupération du paramètre "id" en GET
  */
 if (empty($_GET['id']) || !ctype_digit($_GET['id'])) {
-    die("Ho ?! Tu n'as pas précisé l'id de l'article !");
+    die("Ho ! Fallait préciser le paramètre id en GET !");
 }
 
 $id = $_GET['id'];
+
 
 /**
  * 2. Connexion à la base de données avec PDO
@@ -24,28 +26,21 @@ $id = $_GET['id'];
  * 
  * PS : Vous remarquez que ce sont les mêmes lignes que pour l'index.php ?!
  */
-$pdo = new PDO('mysql:host=localhost;dbname=blogpoo;charset=utf8', 'root', '', [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-]);
+require_once('connect.php');
+
+
+
+
+$article = findArticle($id);
+if ($article) {
+    die("Aucun commentaire n'a l'identifiant $id !");
+} 
+
+
+deleteArticle($id);
 
 /**
- * 3. Vérification que l'article existe bel et bien
+ * 5. Redirection vers l'article en question
  */
-$query = $pdo->prepare('SELECT * FROM articles WHERE id = :id');
-$query->execute(['id' => $id]);
-if ($query->rowCount() === 0) {
-    die("L'article $id n'existe pas, vous ne pouvez donc pas le supprimer !");
-}
-
-/**
- * 4. Réelle suppression de l'article
- */
-$query = $pdo->prepare('DELETE FROM articles WHERE id = :id');
-$query->execute(['id' => $id]);
-
-/**
- * 5. Redirection vers la page d'accueil
- */
-header("Location: index.php");
+header("Location: article.php?id=" . $article_id);
 exit();
